@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
+from main.permissions import IsOwnerReadOnly
 
 # Create your views here.
 from rest_framework import generics
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
 from main.models import Curso, TipoPerfil, Perfil, Area, Item, Questionario, Alternativa, Resposta
 from main.serializers import UserSerializer, CursoSerializer, PerfilSerializer, AreaSerializer, \
     ItemSerializer, QuestionarioSerializer, AlternativaSerializer, RespostaSerializer, TipoPerfilSerializer
@@ -43,6 +44,7 @@ class TipoPerfilDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = TipoPerfil.objects.all()
     serializer_class = TipoPerfilSerializer
     name = 'tipo-perfil-detail'
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerReadOnly)
 
 
 class TipoPerfilList(generics.ListCreateAPIView):
