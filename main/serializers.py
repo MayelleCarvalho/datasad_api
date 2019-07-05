@@ -1,58 +1,71 @@
+import datetime
+from typing import Any
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from main.models import TipoPerfil, Curso, Perfil, Area, Item, Questionario, Alternativa, Resposta
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+    password = serializers.CharField(style={'input_type': 'password'})
+    email = serializers.EmailField(style={'input_type': 'email'})
     class Meta:
         model = User
-        fields = ('id','username','password','first_name', 'last_name')
+        fields = ('url','username','password','first_name', 'last_name', 'email')
 
 
-class TipoPerfilSerializer(serializers.ModelSerializer):
+class TipoPerfilSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TipoPerfil
-        fields = ('__all__')
+        fields = ('url','descricao')
 
 
-class CursoSerializer(serializers.ModelSerializer):
+class CursoSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Curso
-        fields = ('__all__')
+        fields = ('url','descricao', 'nivel', 'tipo','semestre')
 
 
-class PerfilSerializer(serializers.ModelSerializer):
+class PerfilSerializer(serializers.HyperlinkedModelSerializer):
+
+    # usuario = serializers.ReadOnlyField(source='usuario.username')
+    usuario = serializers.HyperlinkedIdentityField(view_name='user-detail', format = 'html')
+
     class Meta:
+
         model = Perfil
-        fields = ('__all__')
+        fields = ('url','usuario', 'sexo', 'contato', 'tipo_perfil')
 
 
-class AreaSerializer(serializers.ModelSerializer):
+class AreaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Area
-        fields = ('__all__')
+        fields = ('url','descricao')
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ('__all__')
+        fields = ('url','descricao')
 
 
-class QuestionarioSerializer(serializers.ModelSerializer):
+class QuestionarioSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Questionario
-        fields = ( '__all__')
+        fields = ('url','autor','area', 'descricao','recomendacoes')
 
 
-class AlternativaSerializer(serializers.ModelSerializer):
+class AlternativaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Alternativa
-        fields = ('__all__')
+        fields = ('url','descricao','item','peso')
 
 
-class RespostaSerializer(serializers.ModelSerializer):
+class RespostaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Resposta
-        fields = ('__all__')
+        fields = ('url','aluno', 'resposta')

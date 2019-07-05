@@ -14,28 +14,131 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from main import views
+from rest_framework.routers import DefaultRouter
+from main.views import UserViewSet, CursoViewSet, TipoPerfilViewSet, PerfilViewSet, AreaViewSet, ItemViewSet, \
+    QuestionarioViewSet, AlternativaViewSet, RespostaViewSet
+
+user_list = UserViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+user_detail = UserViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+tipoperfil_list = TipoPerfilViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+tipoperfil_detail = TipoPerfilViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+curso_list = CursoViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+curso_detail = CursoViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+perfil_list = PerfilViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+perfil_detail = PerfilViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+area_list = AreaViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+area_detail = AreaViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+item_list = ItemViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+item_detail = ItemViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+questionario_list = QuestionarioViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+questionario_detail = QuestionarioViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+alternativa_list = AlternativaViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+alternativa_detail = AlternativaViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+resposta_list = RespostaViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+resposta_detail = RespostaViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+
+router = DefaultRouter()
+router.register(r'usuarios', views.UserViewSet)
+router.register(r'tipoperfis', views.TipoPerfilViewSet)
+router.register(r'cursos', views.CursoViewSet)
+router.register(r'perfis', views.PerfilViewSet)
+router.register(r'areas', views.AreaViewSet)
+router.register(r'itens', views.ItemViewSet)
+router.register(r'questionarios', views.QuestionarioViewSet)
+router.register(r'alternativas', views.AlternativaViewSet)
+router.register(r'respostas', views.RespostaViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', views.ApiRoot.as_view(), name=views.ApiRoot.name),
-    path('api/usuarios/<int:pk>', views.UserDetail.as_view(), name = views.UserDetail.name),
-    path('api/usuarios/', views.UserList.as_view(), name = views.UserList.name),
-    path('api/tipos-perfis/<int:pk>', views.TipoPerfilDetail.as_view(), name=views.TipoPerfilDetail.name),
-    path('api/tipos-perfis/', views.TipoPerfilList.as_view(), name=views.TipoPerfilList.name),
-    path('api/cursos/<int:pk>', views.CursoDetail.as_view(), name=views.CursoDetail.name),
-    path('api/cursos/', views.CursoList.as_view(), name=views.CursoList.name),
-    path('api/perfis/<int:pk>', views.PerfilDetail.as_view(), name=views.PerfilDetail.name),
-    path('api/perfis/', views.PerfilList.as_view(), name=views.PerfilList.name),
-    path('api/areas/<int:pk>', views.AreaDetail.as_view(), name=views.AreaDetail.name),
-    path('api/areas/', views.AreaList.as_view(), name=views.AreaList.name),
-    path('api/itens/<int:pk>', views.ItemDetail.as_view(), name=views.ItemDetail.name),
-    path('api/itens/', views.ItemList.as_view(), name=views.ItemList.name),
-    path('api/questionarios/<int:pk>', views.QuestionarioDetail.as_view(), name=views.QuestionarioDetail.name),
-    path('api/questionarios/', views.QuestionarioList.as_view(), name=views.QuestionarioList.name),
-    path('api/alternativas/<int:pk>', views.AlternativaDetail.as_view(), name=views.AlternativaDetail.name),
-    path('api/alternativas/', views.AlternativaList.as_view(), name=views.AlternativaList.name),
-    path('api/respostas/<int:pk>', views.RespostaDetail.as_view(), name=views.RespostaDetail.name),
-    path('api/respostas/', views.RespostaList.as_view(), name=views.RespostaList.name),
+    path('',include(router.urls)),
 ]
