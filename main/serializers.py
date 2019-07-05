@@ -1,7 +1,6 @@
-import datetime
-from typing import Any
-
+import self as self
 from django.contrib.auth.models import User
+from django.utils.datetime_safe import datetime
 from rest_framework import serializers
 
 from main.models import TipoPerfil, Curso, Perfil, Area, Item, Questionario, Alternativa, Resposta
@@ -26,13 +25,14 @@ class CursoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Curso
-        fields = ('url','descricao', 'nivel', 'tipo','semestre')
+        fields = ('url','descricao', 'nivel', 'tipo','semestre', 'data_criacao')
+        read_only_fields = ('data_criacao',)
 
 
 class PerfilSerializer(serializers.HyperlinkedModelSerializer):
 
     # usuario = serializers.ReadOnlyField(source='usuario.username')
-    usuario = serializers.HyperlinkedIdentityField(view_name='user-detail', format = 'html')
+    # usuario = serializers.HyperlinkedIdentityField(view_name='user-detail', format = 'html')
 
     class Meta:
 

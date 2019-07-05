@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.utils.datetime_safe import datetime
 from rest_framework import viewsets
 from main.models import Curso, TipoPerfil, Perfil, Area, Item, Questionario, Alternativa, Resposta
 from main.serializers import UserSerializer, CursoSerializer, PerfilSerializer, AreaSerializer, \
@@ -22,6 +23,9 @@ class CursoViewSet(viewsets.ModelViewSet):
 
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(data_criacao = '2019-07-05')
 
 
 class PerfilViewSet(viewsets.ModelViewSet):
@@ -51,7 +55,7 @@ class QuestionarioViewSet(viewsets.ModelViewSet):
 class AlternativaViewSet(viewsets.ModelViewSet):
 
     queryset = Alternativa.objects.all()
-    serializer_class = AreaSerializer
+    serializer_class = AlternativaSerializer
 
 
 class RespostaViewSet(viewsets.ModelViewSet):

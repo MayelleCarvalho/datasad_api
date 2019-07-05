@@ -44,7 +44,7 @@ class Perfil(models.Model):
         ('O', 'Outro'),
     )
 
-    usuario = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE, related_name='perfil')
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     contato = models.CharField(max_length=11, blank=True, null=True)
     tipo_perfil = models.ForeignKey(TipoPerfil, on_delete=models.CASCADE, related_name='perfil')
